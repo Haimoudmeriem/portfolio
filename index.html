@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meriem HAIMOUD | Développeuse Web & Mobile</title>
+    <meta name="description" content="Portfolio de Meriem HAIMOUD - Développeuse Web, Mobile et solutions E-commerce.">
+    <meta name="theme-color" content="#1e3a8a">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>document.documentElement.classList.add('js');</script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e3a8a',
+                        secondary: '#3b82f6',
+                        accent: '#f43f5e',
+                    },
+                    keyframes: {
+                        float: { '0%,100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-14px)' } },
+                        blob: {
+                            '0%,100%': { transform: 'translate(0,0) scale(1)' },
+                            '33%': { transform: 'translate(30px,-40px) scale(1.1)' },
+                            '66%': { transform: 'translate(-25px,25px) scale(0.95)' },
+                        },
+                        spinSlow: { to: { transform: 'rotate(360deg)' } },
+                        pulseRing: { '0%': { transform: 'scale(1)', opacity: '.5' }, '100%': { transform: 'scale(1.35)', opacity: '0' } },
+                        gradientMove: { '0%,100%': { backgroundPosition: '0% 50%' }, '50%': { backgroundPosition: '100% 50%' } },
+                    },
+                    animation: {
+                        float: 'float 5s ease-in-out infinite',
+                        blob: 'blob 12s ease-in-out infinite',
+                        spinSlow: 'spinSlow 8s linear infinite',
+                        pulseRing: 'pulseRing 2s ease-out infinite',
+                        gradientMove: 'gradientMove 6s ease infinite',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* ---------- Base ---------- */
+        body { transition: background-color .4s, color .4s; }
+        ::selection { background: #3b82f6; color: #fff; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(#1e3a8a, #3b82f6); border-radius: 10px; }
+
+        /* ---------- Preloader ---------- */
+        #preloader {
+            position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center;
+            background: #0f172a; transition: opacity .6s ease, visibility .6s ease;
+        }
+        #preloader.hide { opacity: 0; visibility: hidden; }
+        /* Sécurité : disparaît tout seul après 1,5 s même si le JS échoue */
+        #preloader { animation: preloaderOut .6s ease 1.5s forwards; pointer-events: none; }
+        @keyframes preloaderOut { to { opacity: 0; visibility: hidden; } }
+        .loader-ring {
+            width: 64px; height: 64px; border-radius: 50%;
+            border: 4px solid rgba(255,255,255,.12); border-top-color: #3b82f6;
+            animation: spin 0.9s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ---------- Scroll reveal ---------- */
+        .js .reveal { opacity: 0; transform: translateY(40px); transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
+        .js .reveal.from-left { transform: translateX(-50px); }
+        .js .reveal.from-right { transform: translateX(50px); }
+        .js .reveal.zoom { transform: scale(.9); }
+        .js .reveal.visible { opacity: 1; transform: none; }
+
+        /* ---------- Typing cursor ---------- */
+        .cursor::after { content: '|'; margin-left: 2px; animation: blink 1s steps(2) infinite; color: #3b82f6; }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* ---------- Gradient text animé ---------- */
+        .gradient-text {
+            background: linear-gradient(90deg, #1e3a8a, #3b82f6, #f43f5e, #3b82f6, #1e3a8a);
+            background-size: 300% 100%;
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+            animation: gradientMove 6s ease infinite;
+        }
+        @keyframes gradientMove { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+
+        /* ---------- Carte projet (tilt + shine) ---------- */
+        .project-card { transform-style: preserve-3d; transition: transform .25s ease, box-shadow .3s ease, opacity .4s ease; will-change: transform; position: relative; }
+        .project-card::before {
+            content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0;
+            background: radial-gradient(400px circle at var(--mx, 50%) var(--my, 50%), rgba(59,130,246,.18), transparent 45%);
+            transition: opacity .3s;
+        }
+        .project-card:hover::before { opacity: 1; }
+        .project-card.hide-card { display: none; }
+
+        /* ---------- Barres de compétences ---------- */
+        .skill-bar { width: 0; transition: width 1.4s cubic-bezier(.2,.7,.2,1); position: relative; overflow: hidden; }
+        .skill-bar::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,.45), transparent);
+            transform: translateX(-100%); animation: shimmer 2.4s infinite;
+        }
+        @keyframes shimmer { to { transform: translateX(100%); } }
+
+        /* ---------- Timeline ---------- */
+        .timeline-dot { transition: transform .3s, box-shadow .3s; }
+        .timeline-item:hover .timeline-dot { transform: scale(1.35); box-shadow: 0 0 0 6px rgba(59,130,246,.2); }
+        .timeline-item { transition: transform .3s; }
+        .timeline-item:hover { transform: translateX(6px); }
+
+        /* ---------- Nav lien actif ---------- */
+        .nav-link { position: relative; }
+        .nav-link::after {
+            content: ''; position: absolute; left: 0; bottom: -4px; height: 2px; width: 0;
+            background: linear-gradient(90deg, #1e3a8a, #3b82f6); transition: width .3s;
+        }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        .nav-link.active { color: #3b82f6; }
+
+        /* ---------- Bouton magnétique / ripple ---------- */
+        .btn-ripple { position: relative; overflow: hidden; }
+        .ripple {
+            position: absolute; border-radius: 50%; background: rgba(255,255,255,.5);
+            transform: scale(0); animation: ripple .6s linear; pointer-events: none;
+        }
+        @keyframes ripple { to { transform: scale(4); opacity: 0; } }
+
+        /* ---------- Lueur curseur ---------- */
+        #cursorGlow {
+            position: fixed; width: 380px; height: 380px; border-radius: 50%; pointer-events: none; z-index: 1;
+            background: radial-gradient(circle, rgba(59,130,246,.14), transparent 65%);
+            transform: translate(-50%, -50%); transition: opacity .3s; opacity: 0;
+        }
+
+        /* ---------- Marquee technologies ---------- */
+        .marquee { display: flex; width: max-content; animation: marquee 28s linear infinite; }
+        .marquee:hover { animation-play-state: paused; }
+        @keyframes marquee { to { transform: translateX(-50%); } }
+
+        /* ---------- Menu mobile ---------- */
+        #mobileMenu { max-height: 0; overflow: hidden; transition: max-height .4s ease; }
+        #mobileMenu.open { max-height: 400px; }
+
+        /* ---------- Accessibilité : réduire les animations ---------- */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+            .reveal { opacity: 1; transform: none; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-200 font-sans antialiased">
+
+    <!-- PRELOADER -->
+    <div id="preloader"><div class="loader-ring"></div></div>
+
+    <!-- Barre de progression du scroll -->
+    <div id="scrollProgress" class="fixed top-0 left-0 h-1 z-[60] bg-gradient-to-r from-primary via-secondary to-accent" style="width:0%"></div>
+
+    <!-- Lueur qui suit la souris -->
+    <div id="cursorGlow"></div>
+
+    <!-- NAVIGATION -->
+    <nav id="navbar" class="fixed top-0 w-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 z-50 transition-all duration-300">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="#accueil" class="text-xl font-bold gradient-text">Meriem HAIMOUD</a>
+                </div>
+
+                <!-- Navigation Desktop -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#accueil" class="nav-link text-slate-600 dark:text-slate-300 hover:text-secondary transition-colors font-medium">Accueil</a>
+                    <a href="#projets" class="nav-link text-slate-600 dark:text-slate-300 hover:text-secondary transition-colors font-medium">Projets</a>
+                    <a href="#competences" class="nav-link text-slate-600 dark:text-slate-300 hover:text-secondary transition-colors font-medium">Compétences</a>
+                    <a href="#experiences" class="nav-link text-slate-600 dark:text-slate-300 hover:text-secondary transition-colors font-medium">Expériences</a>
+                    <button id="themeToggle" aria-label="Changer de thème" class="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all hover:rotate-12">
+                        <i data-lucide="moon" class="w-5 h-5 dark:hidden"></i>
+                        <i data-lucide="sun" class="w-5 h-5 hidden dark:block"></i>
+                    </button>
+                    <a href="#contact" class="btn-ripple px-4 py-2 bg-primary text-white rounded-lg hover:bg-secondary hover:-translate-y-0.5 transition-all shadow-sm hover:shadow-lg text-sm font-medium">Me contacter</a>
+                </div>
+
+                <!-- Boutons Mobile -->
+                <div class="md:hidden flex items-center gap-1">
+                    <button id="themeToggleMobile" aria-label="Changer de thème" class="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">
+                        <i data-lucide="moon" class="w-5 h-5 dark:hidden"></i>
+                        <i data-lucide="sun" class="w-5 h-5 hidden dark:block"></i>
+                    </button>
+                    <button id="mobileMenuBtn" aria-label="Ouvrir le menu" class="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu Déroulant Mobile -->
+        <div id="mobileMenu" class="md:hidden bg-white dark:bg-slate-900 px-4">
+            <div class="pt-2 pb-4 space-y-2">
+                <a href="#accueil" class="block py-2 text-slate-600 dark:text-slate-300 hover:text-secondary font-medium mobile-link">Accueil</a>
+                <a href="#projets" class="block py-2 text-slate-600 dark:text-slate-300 hover:text-secondary font-medium mobile-link">Projets</a>
+                <a href="#competences" class="block py-2 text-slate-600 dark:text-slate-300 hover:text-secondary font-medium mobile-link">Compétences</a>
+                <a href="#experiences" class="block py-2 text-slate-600 dark:text-slate-300 hover:text-secondary font-medium mobile-link">Expériences</a>
+                <a href="#contact" class="block py-2 text-secondary font-semibold mobile-link">Me contacter</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section id="accueil" class="relative pt-32 pb-20 md:py-36 bg-gradient-to-b from-blue-50/60 to-white dark:from-slate-900 dark:to-slate-950 overflow-hidden">
+        <!-- Blobs animés -->
+        <div class="absolute -top-20 -left-20 w-72 h-72 bg-secondary/30 rounded-full blur-3xl animate-blob"></div>
+        <div class="absolute top-40 -right-20 w-80 h-80 bg-accent/20 rounded-full blur-3xl animate-blob" style="animation-delay:-4s"></div>
+        <div class="absolute bottom-0 left-1/3 w-64 h-64 bg-primary/20 rounded-full blur-3xl animate-blob" style="animation-delay:-8s"></div>
+
+        <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
+
+                <!-- PHOTO -->
+                <div class="md:col-span-4 flex justify-center reveal zoom">
+                    <div class="relative animate-float">
+                        <!-- Anneaux animés -->
+                        <span class="absolute inset-0 rounded-full border-2 border-secondary animate-pulseRing"></span>
+                        <span class="absolute inset-0 rounded-full border-2 border-accent animate-pulseRing" style="animation-delay:1s"></span>
+                        <div class="relative w-64 h-64 md:w-80 md:h-80 rounded-full p-2 shadow-2xl overflow-hidden">
+                            <div class="absolute inset-0 bg-[conic-gradient(from_0deg,#1e3a8a,#3b82f6,#f43f5e,#3b82f6,#1e3a8a)] animate-spinSlow"></div>
+                            <img id="profileImage"
+                                 src="p2.jpeg"
+                                 onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Meriem+Haimoud&size=400&background=1e3a8a&color=fff';"
+                                 alt="Meriem HAIMOUD"
+                                 class="relative w-full h-full object-cover rounded-full border-4 border-white dark:border-slate-900 bg-slate-100">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TEXTE HERO -->
+                <div class="md:col-span-8 space-y-6 text-center md:text-left">
+                    <div class="reveal inline-flex items-center gap-2 px-3 py-1 bg-blue-100 dark:bg-blue-500/10 text-primary dark:text-blue-300 text-sm font-semibold rounded-full">
+                        <span class="relative flex h-2 w-2">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                        </span>
+                        Disponible pour de nouveaux projets !
+                    </div>
+                    <h1 class="reveal text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 dark:text-white tracking-tight" style="transition-delay:.1s">
+                        Bonjour, je suis <span class="gradient-text">Meriem</span>
+                    </h1>
+                    <p class="reveal text-xl md:text-2xl font-medium text-slate-600 dark:text-slate-300 min-h-[2.2em]" style="transition-delay:.2s">
+                        <span id="typed" class="cursor"></span>
+                    </p>
+                    <p class="reveal text-lg text-slate-600 dark:text-slate-400 max-w-2xl leading-relaxed" style="transition-delay:.3s">
+                        Développeuse passionnée, je conçois et déploie des applications web, mobiles et des plateformes e-commerce performantes, alliant rigueur technique, expérience utilisateur intuitive et vision business.
+                    </p>
+
+                    <!-- ACTIONS -->
+                    <div class="reveal flex flex-wrap justify-center md:justify-start gap-4" style="transition-delay:.4s">
+                        <a href="#projets" class="btn-ripple px-6 py-3 bg-primary text-white font-medium rounded-lg hover:bg-secondary hover:-translate-y-1 transition-all shadow-md hover:shadow-xl inline-flex items-center gap-2 group">
+                            Voir mes projets <i data-lucide="arrow-down" class="w-4 h-4 group-hover:translate-y-1 transition-transform"></i>
+                        </a>
+                        <a href="#contact" class="btn-ripple px-6 py-3 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 font-medium rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 hover:-translate-y-1 transition-all inline-flex items-center gap-2 group">
+                            Me contacter <i data-lucide="mail" class="w-4 h-4 group-hover:rotate-12 transition-transform"></i>
+                        </a>
+                    </div>
+
+                    <!-- RÉSEAUX -->
+                    <div class="reveal flex justify-center md:justify-start gap-6 pt-4 text-slate-500 dark:text-slate-400" style="transition-delay:.5s">
+                        <a href="https://github.com/Haimoudmeriem" target="_blank" rel="noopener noreferrer" class="hover:text-secondary hover:-translate-y-1 transition-all inline-flex items-center gap-1.5 font-medium">
+                            <i data-lucide="github" class="w-5 h-5"></i> GitHub
+                        </a>
+                        <a href="https://www.linkedin.com/in/haimoud-meriem-232914356/" target="_blank" rel="noopener noreferrer" class="hover:text-secondary hover:-translate-y-1 transition-all inline-flex items-center gap-1.5 font-medium">
+                            <i data-lucide="linkedin" class="w-5 h-5"></i> LinkedIn
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Indicateur de scroll -->
+            <a href="#stats" class="hidden md:flex absolute left-1/2 -bottom-12 -translate-x-1/2 flex-col items-center text-slate-400 hover:text-secondary transition-colors" aria-label="Défiler vers le bas">
+                <span class="w-6 h-10 rounded-full border-2 border-current flex justify-center pt-2">
+                    <span class="w-1 h-2 bg-current rounded-full animate-bounce"></span>
+                </span>
+            </a>
+        </div>
+    </section>
+
+    <!-- STATS -->
+    <section id="stats" class="py-14 bg-white dark:bg-slate-950">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                <div class="reveal p-6 rounded-2xl bg-slate-50 dark:bg-slate-900 hover:-translate-y-2 hover:shadow-lg transition-all">
+                    <div class="text-4xl font-extrabold gradient-text"><span class="counter" data-target="4">0</span>+</div>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Projets réalisés</p>
+                </div>
+                <div class="reveal p-6 rounded-2xl bg-slate-50 dark:bg-slate-900 hover:-translate-y-2 hover:shadow-lg transition-all" style="transition-delay:.1s">
+                    <div class="text-4xl font-extrabold gradient-text"><span class="counter" data-target="3">0</span></div>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Expériences pro</p>
+                </div>
+                <div class="reveal p-6 rounded-2xl bg-slate-50 dark:bg-slate-900 hover:-translate-y-2 hover:shadow-lg transition-all" style="transition-delay:.2s">
+                    <div class="text-4xl font-extrabold gradient-text"><span class="counter" data-target="12">0</span>+</div>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Technologies</p>
+                </div>
+                <div class="reveal p-6 rounded-2xl bg-slate-50 dark:bg-slate-900 hover:-translate-y-2 hover:shadow-lg transition-all" style="transition-delay:.3s">
+                    <div class="text-4xl font-extrabold gradient-text"><span class="counter" data-target="100">0</span>%</div>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Motivation</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BANDEAU TECHNOLOGIES -->
+    <section class="py-6 bg-slate-900 overflow-hidden border-y border-slate-800" aria-label="Technologies">
+        <div class="marquee text-slate-400 font-semibold text-lg whitespace-nowrap">
+            <div class="flex items-center gap-12 pr-12">
+                <span>HTML5</span><span class="text-secondary">✦</span><span>CSS3</span><span class="text-secondary">✦</span><span>JavaScript</span><span class="text-secondary">✦</span><span>PHP</span><span class="text-secondary">✦</span><span>MySQL</span><span class="text-secondary">✦</span><span>WordPress</span><span class="text-secondary">✦</span><span>WooCommerce</span><span class="text-secondary">✦</span><span>Flutter</span><span class="text-secondary">✦</span><span>Dart</span><span class="text-secondary">✦</span><span>Kotlin</span><span class="text-secondary">✦</span><span>Git</span><span class="text-secondary">✦</span><span>Vercel</span><span class="text-secondary">✦</span><span>Google Ads</span><span class="text-secondary">✦</span>
+            </div>
+            <div class="flex items-center gap-12 pr-12" aria-hidden="true">
+                <span>HTML5</span><span class="text-secondary">✦</span><span>CSS3</span><span class="text-secondary">✦</span><span>JavaScript</span><span class="text-secondary">✦</span><span>PHP</span><span class="text-secondary">✦</span><span>MySQL</span><span class="text-secondary">✦</span><span>WordPress</span><span class="text-secondary">✦</span><span>WooCommerce</span><span class="text-secondary">✦</span><span>Flutter</span><span class="text-secondary">✦</span><span>Dart</span><span class="text-secondary">✦</span><span>Kotlin</span><span class="text-secondary">✦</span><span>Git</span><span class="text-secondary">✦</span><span>Vercel</span><span class="text-secondary">✦</span><span>Google Ads</span><span class="text-secondary">✦</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROJETS CLÉS -->
+    <section id="projets" class="py-20 bg-slate-100 dark:bg-slate-900">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="reveal text-center max-w-3xl mx-auto mb-10">
+                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-4">Mes Réalisations</h2>
+                <div class="w-16 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded"></div>
+                <p class="text-lg text-slate-600 dark:text-slate-400 mt-4">Un aperçu des projets dynamiques, applications mobiles et plateformes e-commerce sur lesquels j'ai travaillé.</p>
+            </div>
+
+            <!-- Filtres -->
+            <div class="reveal flex flex-wrap justify-center gap-3 mb-12" id="filters">
+                <button data-filter="all" class="filter-btn active px-5 py-2 rounded-full text-sm font-semibold transition-all">Tous</button>
+                <button data-filter="ecommerce" class="filter-btn px-5 py-2 rounded-full text-sm font-semibold transition-all">E-commerce</button>
+                <button data-filter="web" class="filter-btn px-5 py-2 rounded-full text-sm font-semibold transition-all">Web</button>
+                <button data-filter="mobile" class="filter-btn px-5 py-2 rounded-full text-sm font-semibold transition-all">Mobile</button>
+            </div>
+            <style>
+                .filter-btn { background: #fff; color: #475569; border: 1px solid #cbd5e1; }
+                .dark .filter-btn { background: #1e293b; color: #cbd5e1; border-color: #334155; }
+                .filter-btn:hover { transform: translateY(-2px); border-color: #3b82f6; }
+                .filter-btn.active { background: linear-gradient(90deg, #1e3a8a, #3b82f6); color: #fff; border-color: transparent; box-shadow: 0 6px 16px rgba(59,130,246,.35); }
+            </style>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="projectGrid">
+                <!-- PROJET 1 -->
+                <div class="project-card reveal from-left bg-white dark:bg-slate-800 rounded-xl shadow-md overflow-hidden hover:shadow-2xl flex flex-col justify-between" data-cat="ecommerce">
+                    <div class="p-6 md:p-8 space-y-4">
+                        <div class="flex justify-between items-start">
+                            <div class="p-3 bg-blue-50 dark:bg-blue-500/10 rounded-lg text-primary dark:text-blue-300"><i data-lucide="shopping-cart" class="w-6 h-6"></i></div>
+                            <span class="px-3 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs font-semibold rounded-full uppercase">E-Commerce B2B / B2C</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white">Best One Business — Matériel Informatique</h3>
+                        <p class="text-slate-600 dark:text-slate-400">Développement et configuration d'une boutique e-commerce de vente d'équipements informatiques et consommables, avec tarification pro et demandes de devis.</p>
+                        <div class="flex flex-wrap gap-2 pt-2">
+                            <span class="tag">WordPress</span><span class="tag">WooCommerce</span><span class="tag">PHP</span><span class="tag">cPanel / DNS</span>
+                        </div>
+                    </div>
+                    <div class="px-6 py-4 bg-slate-50 dark:bg-slate-900/60 border-t border-slate-100 dark:border-slate-700 flex justify-between items-center">
+                        <a href="https://bestonebusiness.com" target="_blank" rel="noopener noreferrer" class="text-primary dark:text-blue-300 hover:text-secondary font-medium inline-flex items-center gap-1 group">Visiter le site <i data-lucide="external-link" class="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></i></a>
+                    </div>
+                </div>
+
+                <!-- PROJET 2 -->
+                <div class="project-card reveal from-right bg-white dark:bg-slate-800 rounded-xl shadow-md overflow-hidden hover:shadow-2xl flex flex-col justify-between" data-cat="ecommerce">
+                    <div class="p-6 md:p-8 space-y-4">
+                        <div class="flex justify-between items-start">
+                            <div class="p-3 bg-rose-50 dark:bg-rose-500/10 rounded-lg text-accent"><i data-lucide="sparkles" class="w-6 h-6"></i></div>
+                            <span class="px-3 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs font-semibold rounded-full uppercase">E-Commerce Premium</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white">OURAVOLT — Parfumerie & Cosmétique</h3>
+                        <p class="text-slate-600 dark:text-slate-400">Expérience d'achat haut de gamme, visuelle et mobile-friendly pour une marque de parfums artisanaux. Optimisation UI/UX du tunnel de commande.</p>
+                        <div class="flex flex-wrap gap-2 pt-2">
+                            <span class="tag">WordPress</span><span class="tag">UI/UX Design</span><span class="tag">CSS3 / JS</span>
+                        </div>
+                    </div>
+                    <div class="px-6 py-4 bg-slate-50 dark:bg-slate-900/60 border-t border-slate-100 dark:border-slate-700 flex justify-between items-center">
+                        <a href="https://ouravolt.com" target="_blank" rel="noopener noreferrer" class="text-primary dark:text-blue-300 hover:text-secondary font-medium inline-flex items-center gap-1 group">Visiter le site <i data-lucide="external-link" class="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></i></a>
+                    </div>
+                </div>
+
+                <!-- PROJET 3 -->
+                <div class="project-card reveal from-left bg-white dark:bg-slate-800 rounded-xl shadow-md overflow-hidden hover:shadow-2xl flex flex-col justify-between" data-cat="web">
+                    <div class="p-6 md:p-8 space-y-4">
+                        <div class="flex justify-between items-start">
+                            <div class="p-3 bg-indigo-50 dark:bg-indigo-500/10 rounded-lg text-indigo-600 dark:text-indigo-300"><i data-lucide="globe" class="w-6 h-6"></i></div>
+                            <span class="px-3 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs font-semibold rounded-full uppercase">Développement Web</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white">MayMay Site — Plateforme Web Dynamique</h3>
+                        <p class="text-slate-600 dark:text-slate-400">Application dynamique responsive côté client avec logique d'administration et base de données côté serveur (projets, tests et analyse).</p>
+                        <div class="flex flex-wrap gap-2 pt-2">
+                            <span class="tag">HTML5 / CSS3</span><span class="tag">JavaScript</span><span class="tag">PHP</span><span class="tag">MySQL</span>
+                        </div>
+                    </div>
+                    <div class="px-6 py-4 bg-slate-50 dark:bg-slate-900/60 border-t border-slate-100 dark:border-slate-700 flex justify-between items-center">
+                        <a href="https://maymaysite.vercel.app" target="_blank" rel="noopener noreferrer" class="text-primary dark:text-blue-300 hover:text-secondary font-medium inline-flex items-center gap-1 group">Démo en ligne <i data-lucide="external-link" class="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></i></a>
+                        <a href="https://github.com/Haimoudmeriem" target="_blank" rel="noopener noreferrer" class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-white inline-flex items-center gap-1 text-sm font-medium"><i data-lucide="github" class="w-4 h-4"></i> GitHub</a>
+                    </div>
+                </div>
+
+                <!-- PROJET 4 -->
+                <div class="project-card reveal from-right bg-white dark:bg-slate-800 rounded-xl shadow-md overflow-hidden hover:shadow-2xl flex flex-col justify-between" data-cat="mobile">
+                    <div class="p-6 md:p-8 space-y-4">
+                        <div class="flex justify-between items-start">
+                            <div class="p-3 bg-emerald-50 dark:bg-emerald-500/10 rounded-lg text-emerald-600 dark:text-emerald-300"><i data-lucide="smartphone" class="w-6 h-6"></i></div>
+                            <span class="px-3 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs font-semibold rounded-full uppercase">Application Mobile</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white">Suivi Santé & Rappels Médicaux</h3>
+                        <p class="text-slate-600 dark:text-slate-400">Application de santé et de gestion des rendez-vous et des médicaments. Intègre un moteur de notifications planifiées en local.</p>
+                        <div class="flex flex-wrap gap-2 pt-2">
+                            <span class="tag">Flutter (Dart)</span><span class="tag">Kotlin</span><span class="tag">Notifications</span>
+                        </div>
+                    </div>
+                    <div class="px-6 py-4 bg-slate-50 dark:bg-slate-900/60 border-t border-slate-100 dark:border-slate-700 flex justify-between items-center">
+                        <span class="text-slate-400 text-sm font-medium flex items-center gap-1"><i data-lucide="lock" class="w-4 h-4"></i> Projet Agence</span>
+                        <a href="https://github.com/Haimoudmeriem" target="_blank" rel="noopener noreferrer" class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-white inline-flex items-center gap-1 text-sm font-medium"><i data-lucide="github" class="w-4 h-4"></i> GitHub</a>
+                    </div>
+                </div>
+            </div>
+            <style>
+                .tag { padding: .25rem .5rem; background: #f1f5f9; color: #475569; font-size: .75rem; border-radius: .25rem; transition: all .25s; }
+                .dark .tag { background: #334155; color: #cbd5e1; }
+                .project-card:hover .tag { background: #dbeafe; color: #1e3a8a; }
+                .dark .project-card:hover .tag { background: rgba(59,130,246,.2); color: #bfdbfe; }
+            </style>
+        </div>
+    </section>
+
+    <!-- COMPÉTENCES -->
+    <section id="competences" class="py-20 bg-white dark:bg-slate-950">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="reveal text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-4">Mes Compétences</h2>
+                <div class="w-16 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- TECH WEB -->
+                <div class="reveal bg-slate-50 dark:bg-slate-900 rounded-xl p-6 md:p-8 space-y-6 hover:-translate-y-2 hover:shadow-xl transition-all duration-300">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 bg-blue-100 dark:bg-blue-500/10 text-primary dark:text-blue-300 rounded-lg"><i data-lucide="code-2" class="w-6 h-6"></i></div>
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-white">Développement Web</h3>
+                    </div>
+                    <div class="space-y-3">
+                        <div>
+                            <div class="flex justify-between text-sm font-medium text-slate-600 dark:text-slate-300 mb-1"><span>HTML5 / CSS3</span><span>Avancé</span></div>
+                            <div class="w-full bg-slate-200 dark:bg-slate-700 h-2 rounded"><div class="skill-bar bg-primary h-2 rounded" data-width="90"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm font-medium text-slate-600 dark:text-slate-300 mb-1"><span>JavaScript</span><span>Intermédiaire</span></div>
+                            <div class="w-full bg-slate-200 dark:bg-slate-700 h-2 rounded"><div class="skill-bar bg-primary h-2 rounded" data-width="75"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm font-medium text-slate-600 dark:text-slate-300 mb-1"><span>PHP / SQL</span><span>Avancé</span></div>
+                            <div class="w-full bg-slate-200 dark:bg-slate-700 h-2 rounded"><div class="skill-bar bg-primary h-2 rounded" data-width="80"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm font-medium text-slate-600 dark:text-slate-300 mb-1"><span>WordPress / WooCommerce</span><span>Avancé</span></div>
+                            <div class="w-full bg-slate-200 dark:bg-slate-700 h-2 rounded"><div class="skill-bar bg-primary h-2 rounded" data-width="85"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TECH MOBILE -->
+                <div class="reveal bg-slate-50 dark:bg-slate-900 rounded-xl p-6 md:p-8 space-y-6 hover:-translate-y-2 hover:shadow-xl transition-all duration-300" style="transition-delay:.12s">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 bg-blue-100 dark:bg-blue-500/10 text-primary dark:text-blue-300 rounded-lg"><i data-lucide="smartphone" class="w-6 h-6"></i></div>
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-white">Développement Mobile & Outils</h3>
+                    </div>
+                    <div class="space-y-3">
+                        <div>
+                            <div class="flex justify-between text-sm font-medium text-slate-600 dark:text-slate-300 mb-1"><span>Flutter (Dart)</span><span>Avancé</span></div>
+                            <div class="w-full bg-slate-200 dark:bg-slate-700 h-2 rounded"><div class="skill-bar bg-secondary h-2 rounded" data-width="80"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm font-medium text-slate-600 dark:text-slate-300 mb-1"><span>Kotlin</span><span>Pratique</span></div>
+                            <div class="w-full bg-slate-200 dark:bg-slate-700 h-2 rounded"><div class="skill-bar bg-secondary h-2 rounded" data-width="65"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm font-medium text-slate-600 dark:text-slate-300 mb-1"><span>Gestion cPanel & DNS</span><span>Bon niveau</span></div>
+                            <div class="w-full bg-slate-200 dark:bg-slate-700 h-2 rounded"><div class="skill-bar bg-secondary h-2 rounded" data-width="75"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm font-medium text-slate-600 dark:text-slate-300 mb-1"><span>Git / GitHub & Vercel</span><span>Bonne maîtrise</span></div>
+                            <div class="w-full bg-slate-200 dark:bg-slate-700 h-2 rounded"><div class="skill-bar bg-secondary h-2 rounded" data-width="80"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MARKETING & SOFT SKILLS -->
+                <div class="reveal bg-slate-50 dark:bg-slate-900 rounded-xl p-6 md:p-8 space-y-6 hover:-translate-y-2 hover:shadow-xl transition-all duration-300" style="transition-delay:.24s">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 bg-blue-100 dark:bg-blue-500/10 text-primary dark:text-blue-300 rounded-lg"><i data-lucide="bar-chart-3" class="w-6 h-6"></i></div>
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-white">Marketing & Soft Skills</h3>
+                    </div>
+                    <div class="space-y-3">
+                        <div>
+                            <div class="flex justify-between text-sm font-medium text-slate-600 dark:text-slate-300 mb-1"><span>Google Ads</span><span>Intermédiaire</span></div>
+                            <div class="w-full bg-slate-200 dark:bg-slate-700 h-2 rounded"><div class="skill-bar bg-accent h-2 rounded" data-width="70"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm font-medium text-slate-600 dark:text-slate-300 mb-1"><span>Résolution de problèmes</span><span>Avancé</span></div>
+                            <div class="w-full bg-slate-200 dark:bg-slate-700 h-2 rounded"><div class="skill-bar bg-accent h-2 rounded" data-width="90"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm font-medium text-slate-600 dark:text-slate-300 mb-1"><span>Travail en équipe & Agilité</span><span>Avancé</span></div>
+                            <div class="w-full bg-slate-200 dark:bg-slate-700 h-2 rounded"><div class="skill-bar bg-accent h-2 rounded" data-width="85"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm font-medium text-slate-600 dark:text-slate-300 mb-1"><span>Français</span><span>Courant</span></div>
+                            <div class="w-full bg-slate-200 dark:bg-slate-700 h-2 rounded"><div class="skill-bar bg-accent h-2 rounded" data-width="90"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EXPÉRIENCES & FORMATION -->
+    <section id="experiences" class="py-20 bg-slate-100 dark:bg-slate-900">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+
+                <!-- PARCOURS PROFESSIONNEL -->
+                <div class="space-y-8">
+                    <div class="reveal from-left flex items-center gap-3 mb-6">
+                        <div class="p-2 bg-blue-100 dark:bg-blue-500/10 text-primary dark:text-blue-300 rounded-lg"><i data-lucide="briefcase" class="w-6 h-6"></i></div>
+                        <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Parcours professionnel</h2>
+                    </div>
+
+                    <div class="relative border-l-2 border-slate-300 dark:border-slate-700 pl-6 ml-4 space-y-8">
+                        <div class="reveal from-left timeline-item relative">
+                            <span class="timeline-dot absolute -left-[33px] top-1.5 w-4 h-4 bg-primary rounded-full border-4 border-white dark:border-slate-900"></span>
+                            <span class="text-sm font-semibold text-primary dark:text-blue-300">Décembre 2025 - Présent</span>
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Développeuse — Agence Mivara</h3>
+                            <p class="text-sm text-slate-500 dark:text-slate-400 mb-2">Marrakech, Maroc</p>
+                            <p class="text-slate-600 dark:text-slate-400 text-sm">Développement et maintenance de solutions web interactives. Collaboration avec les équipes créatives et marketing pour concevoir des interfaces intuitives adaptées aux besoins clients.</p>
+                        </div>
+                        <div class="reveal from-left timeline-item relative" style="transition-delay:.1s">
+                            <span class="timeline-dot absolute -left-[33px] top-1.5 w-4 h-4 bg-primary rounded-full border-4 border-white dark:border-slate-900"></span>
+                            <span class="text-sm font-semibold text-primary dark:text-blue-300">Novembre 2025 (Stage d'immersion)</span>
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Développeuse Web — YAAMNETWORK</h3>
+                            <p class="text-sm text-slate-500 dark:text-slate-400 mb-2">Marrakech, Maroc</p>
+                            <p class="text-slate-600 dark:text-slate-400 text-sm">Réalisation et tests de fonctionnalités web dynamiques et responsives (PHP, JS, SQL). Déploiement et intégration du projet (<a href="https://maymaysite.vercel.app" target="_blank" rel="noopener noreferrer" class="underline hover:text-secondary">maymaysite</a>) sur Vercel.</p>
+                        </div>
+                        <div class="reveal from-left timeline-item relative" style="transition-delay:.2s">
+                            <span class="timeline-dot absolute -left-[33px] top-1.5 w-4 h-4 bg-primary rounded-full border-4 border-white dark:border-slate-900"></span>
+                            <span class="text-sm font-semibold text-primary dark:text-blue-300">Avril 2025 (Stage de spécialisation)</span>
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Développeuse Mobile — Agence JWB</h3>
+                            <p class="text-sm text-slate-500 dark:text-slate-400 mb-2">Marrakech, Maroc</p>
+                            <p class="text-slate-600 dark:text-slate-400 text-sm">Conception d'une application mobile de rappels médicaux et notifications en local en utilisant le framework Flutter (Dart).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FORMATION & DIPLÔMES -->
+                <div class="space-y-8">
+                    <div class="reveal from-right flex items-center gap-3 mb-6">
+                        <div class="p-2 bg-blue-100 dark:bg-blue-500/10 text-primary dark:text-blue-300 rounded-lg"><i data-lucide="graduation-cap" class="w-6 h-6"></i></div>
+                        <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Formation & Diplômes</h2>
+                    </div>
+
+                    <div class="relative border-l-2 border-slate-300 dark:border-slate-700 pl-6 ml-4 space-y-8">
+                        <div class="reveal from-right timeline-item relative">
+                            <span class="timeline-dot absolute -left-[33px] top-1.5 w-4 h-4 bg-secondary rounded-full border-4 border-white dark:border-slate-900"></span>
+                            <span class="text-sm font-semibold text-secondary">2024 - 2025</span>
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Diplôme de Technicien Spécialisé en Développement</h3>
+                            <p class="text-sm text-slate-500 dark:text-slate-400 mb-1">Institut NTIC Syba, Marrakech-Safi</p>
+                            <p class="text-slate-600 dark:text-slate-400 text-sm">Web (HTML, CSS, JS, PHP, SQL) & Mobile (Kotlin, Flutter, Dart).</p>
+                        </div>
+                        <div class="reveal from-right timeline-item relative" style="transition-delay:.1s">
+                            <span class="timeline-dot absolute -left-[33px] top-1.5 w-4 h-4 bg-secondary rounded-full border-4 border-white dark:border-slate-900"></span>
+                            <span class="text-sm font-semibold text-secondary">En continu</span>
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Formation en Marketing Digital & Google Ads</h3>
+                            <p class="text-sm text-slate-500 dark:text-slate-400 mb-1">Certification Udemy</p>
+                            <p class="text-slate-600 dark:text-slate-400 text-sm">Création et gestion de campagnes Google Ads, recherche de mots-clés, analyse des KPI et amélioration du ROI.</p>
+                        </div>
+                        <div class="reveal from-right timeline-item relative" style="transition-delay:.2s">
+                            <span class="timeline-dot absolute -left-[33px] top-1.5 w-4 h-4 bg-secondary rounded-full border-4 border-white dark:border-slate-900"></span>
+                            <span class="text-sm font-semibold text-secondary">2023</span>
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Licence MIPC — 1re Année</h3>
+                            <p class="text-sm text-slate-500 dark:text-slate-400 mb-1">Faculté des Sciences et Techniques (FST), Marrakech</p>
+                        </div>
+                        <div class="reveal from-right timeline-item relative" style="transition-delay:.3s">
+                            <span class="timeline-dot absolute -left-[33px] top-1.5 w-4 h-4 bg-secondary rounded-full border-4 border-white dark:border-slate-900"></span>
+                            <span class="text-sm font-semibold text-secondary">2022</span>
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Baccalauréat Scientifique (Sciences Physiques)</h3>
+                            <p class="text-sm text-slate-500 dark:text-slate-400 mb-1">Mention Bien (15,71 / 20)</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="py-20 bg-white dark:bg-slate-950">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="reveal zoom bg-slate-900 text-white rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
+                <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(59,130,246,0.2),transparent)]"></div>
+                <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-accent/20 rounded-full blur-3xl animate-blob"></div>
+
+                <div class="relative z-10 text-center space-y-6">
+                    <span class="px-3 py-1 bg-white/10 text-blue-300 text-xs font-semibold rounded-full uppercase tracking-wider">Un projet en tête ?</span>
+                    <h2 class="text-3xl md:text-4xl font-extrabold">Discutons-en ensemble !</h2>
+                    <p class="text-slate-300 max-w-xl mx-auto">Je suis disponible pour des opportunités de développement, des créations de boutiques e-commerce ou des collaborations.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto pt-6">
+                        <!-- EMAIL -->
+                        <a href="mailto:haimoudmeriem860@gmail.com" class="p-4 bg-white/5 rounded-xl hover:bg-white/10 hover:-translate-y-1 transition-all border border-white/10 flex items-center gap-4 text-left group">
+                            <div class="p-3 bg-blue-600 rounded-lg text-white group-hover:rotate-12 transition-transform"><i data-lucide="mail" class="w-6 h-6"></i></div>
+                            <div>
+                                <span class="text-xs text-slate-400 block">Envoyer un Email</span>
+                                <span class="font-medium text-sm md:text-base break-all">haimoudmeriem860@gmail.com</span>
+                            </div>
+                        </a>
+
+                        <!-- WHATSAPP -->
+                        <a href="https://wa.me/212778496937" target="_blank" rel="noopener noreferrer" class="p-4 bg-white/5 rounded-xl hover:bg-white/10 hover:-translate-y-1 transition-all border border-white/10 flex items-center gap-4 text-left group">
+                            <div class="p-3 bg-emerald-600 rounded-lg text-white group-hover:rotate-12 transition-transform"><i data-lucide="message-square" class="w-6 h-6"></i></div>
+                            <div>
+                                <span class="text-xs text-slate-400 block">Discuter sur WhatsApp</span>
+                                <span class="font-medium text-sm md:text-base">+212 7 78 49 69 37</span>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Mini formulaire (ouvre le client mail) -->
+                    <form id="contactForm" class="max-w-2xl mx-auto pt-6 grid gap-4 text-left">
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <input required type="text" id="cfName" placeholder="Votre nom" class="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/10 placeholder-slate-400 text-white focus:outline-none focus:ring-2 focus:ring-secondary transition-all">
+                            <input required type="email" id="cfEmail" placeholder="Votre email" class="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/10 placeholder-slate-400 text-white focus:outline-none focus:ring-2 focus:ring-secondary transition-all">
+                        </div>
+                        <textarea required id="cfMsg" rows="4" placeholder="Votre message..." class="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/10 placeholder-slate-400 text-white focus:outline-none focus:ring-2 focus:ring-secondary transition-all"></textarea>
+                        <button type="submit" class="btn-ripple px-6 py-3 bg-gradient-to-r from-primary to-secondary text-white font-semibold rounded-lg hover:-translate-y-1 hover:shadow-xl transition-all inline-flex items-center justify-center gap-2">
+                            Envoyer le message <i data-lucide="send" class="w-4 h-4"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
+            <p class="font-bold text-white text-lg">Meriem HAIMOUD</p>
+            <p class="text-sm">Développeuse Web & Mobile | Solutions E-commerce</p>
+            <div class="flex justify-center gap-6 text-slate-500 py-2">
+                <a href="https://github.com/Haimoudmeriem" target="_blank" rel="noopener noreferrer" class="hover:text-white hover:-translate-y-1 transition-all" aria-label="GitHub"><i data-lucide="github" class="w-5 h-5"></i></a>
+                <a href="https://www.linkedin.com/in/haimoud-meriem-232914356/" target="_blank" rel="noopener noreferrer" class="hover:text-white hover:-translate-y-1 transition-all" aria-label="LinkedIn"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+            </div>
+            <p class="text-xs pt-4 border-t border-slate-800/80">© <span id="currentYear"></span> Meriem HAIMOUD. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <!-- Bouton retour en haut -->
+    <button id="toTop" aria-label="Retour en haut" class="fixed bottom-6 right-6 z-50 p-3 rounded-full bg-primary text-white shadow-lg hover:bg-secondary hover:-translate-y-1 transition-all opacity-0 pointer-events-none translate-y-4">
+        <i data-lucide="arrow-up" class="w-5 h-5"></i>
+    </button>
+
+    <script>
+        /* ---------- Preloader (ne dépend plus des ressources externes) ---------- */
+        const hidePreloader = () => document.getElementById('preloader').classList.add('hide');
+        setTimeout(hidePreloader, 800);
+        window.addEventListener('load', hidePreloader);
+
+        try { lucide.createIcons(); } catch (err) { console.warn('Icônes Lucide non chargées :', err); }
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        /* ---------- Thème sombre (mémorisé) ---------- */
+        const root = document.documentElement;
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            root.classList.add('dark');
+        }
+        function toggleTheme() {
+            root.classList.toggle('dark');
+            localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
+        }
+        document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+        document.getElementById('themeToggleMobile').addEventListener('click', toggleTheme);
+
+        /* ---------- Menu mobile ---------- */
+        const menuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+        document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', () => mobileMenu.classList.remove('open')));
+
+        /* ---------- Effet machine à écrire ---------- */
+        const roles = [
+            'Développeuse Web & Mobile',
+            'Solutions E-commerce',
+            'Applications Flutter & Kotlin',
+            'Applications Digitales'
+        ];
+        const typedEl = document.getElementById('typed');
+        let rIdx = 0, cIdx = 0, deleting = false;
+        function typeLoop() {
+            const word = roles[rIdx];
+            typedEl.textContent = word.substring(0, cIdx);
+            if (!deleting && cIdx < word.length) { cIdx++; setTimeout(typeLoop, 70); }
+            else if (!deleting) { deleting = true; setTimeout(typeLoop, 1600); }
+            else if (cIdx > 0) { cIdx--; setTimeout(typeLoop, 35); }
+            else { deleting = false; rIdx = (rIdx + 1) % roles.length; setTimeout(typeLoop, 300); }
+        }
+        if (reduceMotion) { typedEl.textContent = roles[0]; } else { typeLoop(); }
+
+        /* ---------- Révélation au scroll ---------- */
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+        /* ---------- Barres de compétences animées ---------- */
+        const skillObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.width = entry.target.dataset.width + '%';
+                    skillObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.4 });
+        document.querySelectorAll('.skill-bar').forEach(bar => skillObserver.observe(bar));
+
+        /* ---------- Compteurs animés ---------- */
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                const el = entry.target, target = +el.dataset.target, duration = 1600, start = performance.now();
+                (function tick(now) {
+                    const p = Math.min((now - start) / duration, 1);
+                    el.textContent = Math.floor((1 - Math.pow(1 - p, 3)) * target);
+                    if (p < 1) requestAnimationFrame(tick); else el.textContent = target;
+                })(start);
+                counterObserver.unobserve(el);
+            });
+        }, { threshold: 0.6 });
+        document.querySelectorAll('.counter').forEach(c => counterObserver.observe(c));
+
+        /* ---------- Scroll : progression, navbar, retour haut, lien actif ---------- */
+        const progress = document.getElementById('scrollProgress');
+        const navbar = document.getElementById('navbar');
+        const toTop = document.getElementById('toTop');
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        function onScroll() {
+            const y = window.scrollY;
+            const h = document.documentElement.scrollHeight - window.innerHeight;
+            progress.style.width = (h > 0 ? (y / h) * 100 : 0) + '%';
+            navbar.classList.toggle('shadow-lg', y > 20);
+
+            const showTop = y > 500;
+            toTop.classList.toggle('opacity-0', !showTop);
+            toTop.classList.toggle('pointer-events-none', !showTop);
+            toTop.classList.toggle('translate-y-4', !showTop);
+
+            let current = '';
+            sections.forEach(s => { if (y >= s.offsetTop - 120) current = s.id; });
+            navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + current));
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+        toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+        /* ---------- Filtres de projets ---------- */
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const cards = document.querySelectorAll('.project-card');
+        filterBtns.forEach(btn => btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const f = btn.dataset.filter;
+            cards.forEach(card => {
+                const show = f === 'all' || card.dataset.cat === f;
+                card.classList.toggle('hide-card', !show);
+                if (show) { card.classList.add('visible'); }
+            });
+        }));
+
+        /* ---------- Effet 3D tilt + lueur sur les cartes ---------- */
+        if (!reduceMotion && window.matchMedia('(hover: hover)').matches) {
+            cards.forEach(card => {
+                card.addEventListener('mousemove', e => {
+                    const r = card.getBoundingClientRect();
+                    const x = e.clientX - r.left, y = e.clientY - r.top;
+                    const rx = ((y / r.height) - 0.5) * -8, ry = ((x / r.width) - 0.5) * 8;
+                    card.style.setProperty('--mx', x + 'px');
+                    card.style.setProperty('--my', y + 'px');
+                    card.style.transition = 'box-shadow .3s, opacity .4s';
+                    card.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-6px)`;
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transition = 'transform .5s ease, box-shadow .3s, opacity .4s';
+                    card.style.transform = '';
+                });
+            });
+
+            /* Lueur qui suit le curseur */
+            const glow = document.getElementById('cursorGlow');
+            window.addEventListener('mousemove', e => {
+                glow.style.opacity = 1;
+                glow.style.left = e.clientX + 'px';
+                glow.style.top = e.clientY + 'px';
+            });
+        }
+
+        /* ---------- Effet ripple sur les boutons ---------- */
+        document.querySelectorAll('.btn-ripple').forEach(btn => {
+            btn.addEventListener('click', e => {
+                const r = btn.getBoundingClientRect();
+                const size = Math.max(r.width, r.height);
+                const span = document.createElement('span');
+                span.className = 'ripple';
+                span.style.width = span.style.height = size + 'px';
+                span.style.left = (e.clientX - r.left - size / 2) + 'px';
+                span.style.top = (e.clientY - r.top - size / 2) + 'px';
+                btn.appendChild(span);
+                setTimeout(() => span.remove(), 600);
+            });
+        });
+
+        /* ---------- Formulaire de contact (ouvre le client mail) ---------- */
+        document.getElementById('contactForm').addEventListener('submit', e => {
+            e.preventDefault();
+            const name = document.getElementById('cfName').value.trim();
+            const email = document.getElementById('cfEmail').value.trim();
+            const msg = document.getElementById('cfMsg').value.trim();
+            const subject = encodeURIComponent('Contact portfolio — ' + name);
+            const body = encodeURIComponent(msg + '\n\n— ' + name + ' (' + email + ')');
+            window.location.href = 'mailto:haimoudmeriem860@gmail.com?subject=' + subject + '&body=' + body;
+        });
+    </script>
+</body>
+</html>
