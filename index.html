@@ -4,14 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meriem Haimoud | Développeuse Web & E-commerce Freelance au Maroc</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232563eb'/%3E%3Cpath d='M5 23V9L11.5 17.5L18 9V23M22 9V23M27 9V23M22 16H27' stroke='white' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%230f172a'/%3E%3Ctext x='16' y='20.5' font-family='Georgia, serif' font-size='12' font-weight='bold' fill='white' text-anchor='middle'%3EMH%3C/text%3E%3C/svg%3E">
     <meta name="description" content="Création de sites web rapides, boutiques e-commerce WooCommerce et landing pages haute conversion au Maroc. Livrés clés en main.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
                     colors: {
                         primary: '#2563eb',
                         secondary: '#0ea5e9',
@@ -27,24 +33,14 @@
     <!-- Navigation -->
     <header class="sticky top-0 z-40 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-           <a href="#" class="flex items-center gap-3 group">
-    <!-- Icône SVG Monogramme MH -->
-    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-sky-500 flex items-center justify-center text-white shadow-md shadow-blue-600/20 group-hover:scale-105 transition-transform">
-        <svg class="w-6 h-6" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M5 23V9L11.5 17.5L18 9V23" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M22 9V23M27 9V23M22 16H27" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-    </div>
-    <!-- Texte du logo -->
-    <div class="flex flex-col">
-        <span class="text-lg font-extrabold tracking-tight text-slate-900 dark:text-white leading-none">
-            Meriem<span class="text-primary">.dev</span>
-        </span>
-        <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400 mt-0.5">
-            Web & E-commerce
-        </span>
-    </div>
-</a>
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-9 h-9 rounded-full border-2 border-slate-900 dark:border-white flex items-center justify-center font-serif font-bold text-sm tracking-tighter text-slate-900 dark:text-white group-hover:bg-slate-900 group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-slate-900 transition-colors">
+                    MH
+                </div>
+                <span class="text-base font-semibold tracking-wide uppercase text-slate-900 dark:text-white">
+                    Meriem Haimoud
+                </span>
+            </a>
             <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
                 <a href="#projets" class="hover:text-primary transition">Réalisations</a>
                 <a href="#services" class="hover:text-primary transition">Services</a>
@@ -56,46 +52,67 @@
                     <i class="fa-solid fa-moon dark:hidden"></i>
                     <i class="fa-solid fa-sun hidden dark:inline"></i>
                 </button>
-                <a href="https://wa.me/212707437479?text=Bonjour%20Meriem,%20je%20souhaite%20discuter%20d'un%20projet%20web." target="_blank" class="bg-primary hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition shadow-sm">
-                    <i class="fa-brands fa-whatsapp mr-1.5"></i>Devis rapide
+                <a href="https://wa.me/212707437479?text=Bonjour%20Meriem,%20je%20souhaite%20discuter%20d'un%20projet%20web." target="_blank" class="bg-slate-900 dark:bg-primary hover:bg-primary dark:hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2 rounded-full transition shadow-sm">
+                    <i class="fa-brands fa-whatsapp mr-1.5 text-emerald-400 dark:text-white"></i>Devis rapide
                 </a>
             </div>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <section class="py-20 lg:py-28 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div class="lg:col-span-8 space-y-6">
-                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-100 dark:bg-blue-500/10 text-primary dark:text-blue-400 text-xs font-semibold">
-                    <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                    Disponible pour de nouveaux projets 
+    <section class="relative overflow-hidden py-20 lg:py-28 px-4 sm:px-6 lg:px-8">
+        <!-- Effet lumineux subtil en arrière-plan -->
+        <div class="absolute inset-0 -z-10 bg-[radial-gradient(45rem_50rem_at_top,theme(colors.blue.100),white)] dark:bg-[radial-gradient(45rem_50rem_at_top,theme(colors.blue.950),theme(colors.slate.950))] opacity-60"></div>
+
+        <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div class="lg:col-span-7 space-y-6">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm text-xs font-semibold text-slate-700 dark:text-slate-300">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    Disponible pour de nouveaux projets
                 </div>
-                <h1 class="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white leading-tight">
-                    Je crée des sites web rapides et des boutiques en ligne qui transforment vos visiteurs en <span class="text-primary">clients</span>.
+
+                <h1 class="text-4xl sm:text-5xl lg:text-[52px] font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.12]">
+                    Des sites web & boutiques en ligne qui font <span class="bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">décoller vos ventes.</span>
                 </h1>
-                <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400 leading-relaxed max-w-2xl">
-                    Développeuse Web & E-commerce Freelance. J'accompagne les entreprises et marques au Maroc dans la création de sites professionnels clés en main (WordPress, WooCommerce, sur-mesure), livrés rapidement et optimisés pour vendre sur mobile.
+
+                <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400 leading-relaxed max-w-xl">
+                    Développeuse Web & E-commerce Freelance. Je conçois des sites vitrines modernes et des boutiques clés en main pour les entreprises et marques au Maroc. Rapides, esthétiques et pensés pour convertir sur mobile.
                 </p>
-                <div class="flex flex-col sm:flex-row gap-4 pt-2">
-                    <a href="https://wa.me/212707437479?text=Bonjour%20Meriem,%20j'ai%20un%20projet%20de%20site%20web%20et%20j'aimerais%20avoir%20votre%20avis." target="_blank" class="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3.5 rounded-xl shadow-lg shadow-green-600/20 transition">
-                        <i class="fa-brands fa-whatsapp text-xl"></i>
-                        Discuter de mon projet sur WhatsApp
+
+                <div class="flex flex-col sm:flex-row gap-3.5 pt-2">
+                    <a href="https://wa.me/212707437479?text=Bonjour%20Meriem,%20j'aimerais%20discuter%20d'un%20projet%20de%20site%20web." target="_blank" class="inline-flex items-center justify-center gap-2.5 bg-slate-900 dark:bg-blue-600 hover:bg-blue-600 dark:hover:bg-blue-500 text-white font-semibold px-7 py-4 rounded-full shadow-lg transition-all">
+                        <i class="fa-brands fa-whatsapp text-lg text-emerald-400 dark:text-white"></i>
+                        Démarrer mon projet
                     </a>
-                    <a href="#projets" class="inline-flex items-center justify-center gap-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 hover:border-primary text-slate-800 dark:text-white font-semibold px-6 py-3.5 rounded-xl transition">
-                        Voir mes réalisations
-                        <i class="fa-solid fa-arrow-down text-sm"></i>
+                    <a href="#projets" class="inline-flex items-center justify-center gap-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-400 text-slate-800 dark:text-white font-semibold px-7 py-4 rounded-full transition">
+                        Voir mes créations
                     </a>
                 </div>
-                <div class="pt-4 flex flex-wrap items-center gap-6 text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-check text-green-500"></i> Livraison en 5 à 10 jours</span>
-                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-check text-green-500"></i> 100% adapté au mobile</span>
-                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-check text-green-500"></i> Paiement à la livraison (COD)</span>
+
+                <div class="pt-3 flex flex-wrap items-center gap-6 text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-check text-emerald-500"></i> Livraison en 5 à 10 jours</span>
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-check text-emerald-500"></i> 100% adapté au mobile</span>
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-check text-emerald-500"></i> Paiement à la livraison (COD)</span>
                 </div>
             </div>
-            <div class="lg:col-span-4 flex justify-center">
-                <div class="relative w-64 h-64 sm:w-72 sm:h-72 rounded-2xl overflow-hidden border-4 border-white dark:border-slate-800 shadow-xl bg-slate-200 dark:bg-slate-800">
-                    <img src="p2.jpeg" alt="Meriem Haimoud - Développeuse Web Freelance" class="w-full h-full object-cover">
+
+            <!-- Carte Photo avec cadre moderne -->
+            <div class="lg:col-span-5 flex justify-center lg:justify-end">
+                <div class="relative">
+                    <div class="absolute -inset-2 rounded-3xl bg-gradient-to-tr from-blue-600 to-cyan-400 opacity-20 blur-lg"></div>
+                    <div class="relative w-72 h-80 sm:w-80 sm:h-96 rounded-3xl overflow-hidden border border-slate-200/80 dark:border-slate-800 shadow-2xl bg-slate-100">
+                        <img src="p2.jpeg" alt="Meriem Haimoud - Développeuse Web Freelance" class="w-full h-full object-cover">
+                    </div>
+                    <!-- Badge flottant sur la photo -->
+                    <div class="absolute -bottom-4 -left-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-3 rounded-2xl shadow-xl flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-full bg-blue-50 dark:bg-blue-500/10 text-blue-600 flex items-center justify-center font-bold text-sm">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-slate-900 dark:text-white">Livraison Express</p>
+                            <p class="text-[11px] text-slate-500">Site prêt en 5 à 7 jours</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -169,7 +186,7 @@
                     </div>
                     <div class="pt-6 mt-6 border-t border-slate-100 dark:border-slate-800">
                         <span class="inline-flex items-center gap-2 text-slate-500 font-medium text-sm">
-                            Infrastructure déployée <i class="fa-solid fa-circle-check text-green-500"></i>
+                            Infrastructure déployée <i class="fa-solid fa-circle-check text-emerald-500"></i>
                         </span>
                     </div>
                 </article>
@@ -275,17 +292,17 @@
 
     <!-- Contact / CTA Final -->
     <section id="contact" class="py-20 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto text-center">
-        <div class="bg-primary rounded-3xl p-8 sm:p-12 text-white shadow-xl">
+        <div class="bg-slate-900 dark:bg-primary rounded-3xl p-8 sm:p-12 text-white shadow-xl">
             <h2 class="text-2xl sm:text-4xl font-extrabold mb-4">Un projet en tête ? Lançons votre site cette semaine.</h2>
-            <p class="text-blue-100 text-base sm:text-lg max-w-xl mx-auto mb-8">
+            <p class="text-slate-300 dark:text-blue-100 text-base sm:text-lg max-w-xl mx-auto mb-8">
                 Pas besoin de cahier des charges complexe. Envoyez-moi un message sur WhatsApp avec votre idée ou le lien de votre site actuel, je vous réponds sous 2 heures.
             </p>
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a href="https://wa.me/212707437479?text=Bonjour%20Meriem,%20je%20souhaite%20lancer%20mon%20site%20web." target="_blank" class="inline-flex items-center gap-2 bg-white text-slate-900 hover:bg-slate-100 font-bold px-7 py-4 rounded-xl shadow-md transition">
-                    <i class="fa-brands fa-whatsapp text-green-600 text-xl"></i>
+                <a href="https://wa.me/212707437479?text=Bonjour%20Meriem,%20je%20souhaite%20lancer%20mon%20site%20web." target="_blank" class="inline-flex items-center gap-2 bg-white text-slate-900 hover:bg-slate-100 font-bold px-7 py-4 rounded-full shadow-md transition">
+                    <i class="fa-brands fa-whatsapp text-emerald-600 text-xl"></i>
                     M'écrire sur WhatsApp (07 07 43 74 79)
                 </a>
-                <a href="mailto:haimoudchaima.1@gmail.com" class="inline-flex items-center gap-2 text-white border border-white/40 hover:bg-white/10 font-semibold px-6 py-4 rounded-xl transition">
+                <a href="mailto:haimoudchaima.1@gmail.com" class="inline-flex items-center gap-2 text-white border border-white/30 hover:bg-white/10 font-semibold px-6 py-4 rounded-full transition">
                     <i class="fa-solid fa-envelope"></i>
                     Envoyer un email
                 </a>
@@ -300,13 +317,13 @@
             <div class="flex items-center gap-5 text-lg">
                 <a href="https://github.com/Haimoudmeriem" target="_blank" aria-label="GitHub" class="hover:text-primary transition"><i class="fa-brands fa-github"></i></a>
                 <a href="https://www.linkedin.com/in/haimoud-meriem-232914356/" target="_blank" aria-label="LinkedIn" class="hover:text-primary transition"><i class="fa-brands fa-linkedin"></i></a>
-                <a href="https://wa.me/212707437479" target="_blank" aria-label="WhatsApp" class="hover:text-green-500 transition"><i class="fa-brands fa-whatsapp"></i></a>
+                <a href="https://wa.me/212707437479" target="_blank" aria-label="WhatsApp" class="hover:text-emerald-500 transition"><i class="fa-brands fa-whatsapp"></i></a>
             </div>
         </div>
     </footer>
 
     <!-- Bouton WhatsApp Flottant -->
-    <a href="https://wa.me/212707437479?text=Bonjour%20Meriem,%20je%20viens%20de%20visiter%20votre%20portfolio." target="_blank" aria-label="Contacter sur WhatsApp" class="fixed bottom-6 right-6 z-50 w-14 h-14 bg-green-500 hover:bg-green-600 text-white rounded-full shadow-lg flex items-center justify-center text-2xl transition transform hover:scale-105">
+    <a href="https://wa.me/212707437479?text=Bonjour%20Meriem,%20je%20viens%20de%20visiter%20votre%20portfolio." target="_blank" aria-label="Contacter sur WhatsApp" class="fixed bottom-6 right-6 z-50 w-14 h-14 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full shadow-lg flex items-center justify-center text-2xl transition transform hover:scale-105">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
